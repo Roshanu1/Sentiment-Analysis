@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block text %}
+<div class="container">
+  <div class="page-header" id="banner">
+    <div class="jumbotron">
+      <h1 class="display-3">Sentiment Analysis <small class="text-muted">on Movie Review</small></h1>
+      <!-- <p class="lead">Machine on Text</p> -->
+      <!-- <button type="button" id="analyze-tweets-btn" class="btn btn-outline-primary">Analyze Tweets</button> -->
+      <a href="/analyze/text"><button type="button" class="btn btn-outline-primary">Analyze Text</button></a>
+      <hr class="my-4">
+     <!--  <div id="analyze-tweets-collapsible"> -->
+        <!-- <div class="list-group">
+          <a href="/analyze/keyword" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex justify-content-between">
+            <strong>Search Keywords</strong>
+            </div>
+            <small>Analyze tweets based on keywords</small>
+          </a>
+          <a href="/analyze/twitter" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex justify-content-between">
+            <strong>Search People</strong>
+            </div>
+            <small>Analyze people based on tweets</small>
+          </a> -->
+        
+      </div>
+    </div>
+  </div>
+</div>{% endblock %}{% block javascript %}<script type="text/javascript">
+  // var f = 0;
+  // document.querySelector("#analyze-tweets-btn").onclick = ()=>{
+  //   if(f==0){f = 1;
+  //     document.querySelector("#analyze-tweets-collapsible").style = "visibility:visible;"
+  //   } else {f = 0;
+  //     document.querySelector("#analyze-tweets-collapsible").style = "visibility:hidden;"
+  //   }
+  // }
+</script>{% endblock %}

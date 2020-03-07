@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block text %}
+<div class="container">
+	Text analysis <span class="text-muted">runs simple procedures on the submitted (English) text and visualizes the features extracted from it.</span><hr>
+	{% if topics %}
+	<div class="row">
+		<div class="col-lg-3">
+			<div id="tag-cloud">
+				<div class="card border-secondary mb-3">
+				  <div class="card-body" style="padding:0.75em;">
+				    <h5 class="card-title">Tags</h5>
+				    <p class="card-text">
+				    {% for topic in topics %}
+					<span class="tag-{{topics[topic]}}">{{ topic }}</span>
+					{% endfor %}
+					</p>
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-9">
+			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+		</div>
+	</div><hr>{% elif f %}
+	<div class="alert alert-dismissible alert-danger">
+		Please provide a longer text.
+	</div>{% endif %}
+	<form id="textCl-form" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.text(class_="form-control form-control-sm", style="width:700px;height:200px", placeholder="Place text here...") }}
+		</div>
+		{{ form.submit(class_="generic_btn") }}
+	</form>
+</div>{% endblock %}{% block javascript %}{% if topics %}<script src="{{url_for('static', filename="js/canvasjs.min.js" )}}"></script>
+<script>
+	var dataPoints = [];
+	var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "Text Polarity"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 25,
+		toolTipContent: "<b>{label}</b>: {y}%",
+		showInLegend: "true",
+		legendText: "{label}",
+		indexLabelFontSize: 16,
+		indexLabel: "{label} - {y}%",
+		dataPoints: dataPoints
+	}]
+	});
+	var polarities = {{polarities|tojson|safe}}
+	var sum = 0
+	for (polarity in polarities) {	sum += polarities[polarity]; }
+	for (polarity in polarities) {
+		dataPoints.push({y:Math.round(polarities[polarity]/sum*100), label:pol(polarity)})
+	}
+	function pol(polarity){var pol;if(polarity == "neg"){pol = "Negative"} else if(polarity == "pos"){pol = "Positive"} else{pol = "Neutral"}; return pol;}
+chart.render();
+</script>{% endif %}{% endblock %}
